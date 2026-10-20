@@ -121,6 +121,7 @@ body:before{content:"";position:fixed;inset:0;z-index:-1;opacity:.21;pointer-eve
 
 </style>
 <link rel="stylesheet" href="academy-plus.css?v=3">
+<link rel="stylesheet" href="owner-admin.css?v=1">
 </head>
 <body>
   <div class="layout" id="app">
@@ -457,7 +458,7 @@ try{awarded=new Set(JSON.parse(localStorage.getItem("bwcomp_awards_v2")||"[]"));
 /* Import points from the earlier academy version once, keeping unique legacy achievements. */
 try{if(localStorage.getItem("bwcomp_migrated_legacy_v3")!=="1"){const old=JSON.parse(localStorage.getItem("bw_rewards_v2")||"null");if(old&&old.awards){for(const k of Object.keys(old.awards)){if(Number(old.awards[k])>0)awarded.add(k.startsWith("lesson-")?"lesson:"+k.slice(7):"legacy:"+k);}localStorage.setItem("bwcomp_awards_v2",JSON.stringify([...awarded]));}localStorage.setItem("bwcomp_migrated_legacy_v3","1");}}catch(e){}
 if(awarded.size===0 && completed.size){completed.forEach(id=>awarded.add("lesson:"+id));try{localStorage.setItem("bwcomp_awards_v2",JSON.stringify([...awarded]));}catch(e){}}
-const earnedXP=()=>{let extra=0;try{const v=JSON.parse(localStorage.getItem("bw_ac_bonus_v1")||"null");extra=Math.max(0,Number(v?.total)||0)}catch(e){}return (awarded.size===0?0:100+25*(awarded.size-1))+extra;};
+const earnedXP=()=>{try{const b=JSON.parse(localStorage.getItem("bw_ac_board_v1")||"null");if(b&&b.players&&typeof b.name==="string"&&Object.prototype.hasOwnProperty.call(b.players,b.name)){const points=Number(b.players[b.name]?.xp);if(Number.isFinite(points))return Math.max(0,Math.min(1000000,Math.round(points)));}}catch(e){}let extra=0;try{const v=JSON.parse(localStorage.getItem("bw_ac_bonus_v1")||"null");extra=Math.max(0,Number(v?.total)||0)}catch(e){}return (awarded.size===0?0:100+25*(awarded.size-1))+extra;};
 const currentRank=()=>{let v=earnedXP(),i=0;for(let j=0;j<RANK_LADDER.length;j++){if(v>=RANK_LADDER[j][1])i=j;}return {level:i,rank:RANK_LADDER[i],next:RANK_LADDER[i+1]||null};};
 const topicCount=()=>QUIZ_TOPICS.reduce((sum,t)=>sum+t.questions.length,0)+QUESTIONS.length;
 function award(key){if(awarded.has(key))return 0;const first=awarded.size===0;awarded.add(key);try{localStorage.setItem("bwcomp_awards_v2",JSON.stringify([...awarded]));}catch(e){}return first?100:25;}
@@ -473,7 +474,7 @@ function themeActions(target){const s=themeQuiz;if(!s)return;if(target.hasAttrib
 
 let lastRenderHash='';
 function render(){let h=decodeURIComponent((location.hash||'#start').slice(1));if(h.startsWith('abschnitt-'))return;let [page,id]=h.split('/');const mapPage=page==='lesson'?'lernen':page;const el=document.getElementById('mainContent');if(!el)return;let html;
-switch(page){case 'start':html=dashboard()+(typeof acDashboardWidget==='function'?acDashboardWidget():'');break;case 'lernen':html=modules();break;case 'lesson':html=lessonPage(id)+(typeof acReviewButton==='function'?acReviewButton(id):'');break;case 'teilstreit':html=teilStreit();break;case 'feld':html=fieldPage();break;case 'raenge':html=rankPage();break;case 'quiz':html=quizPage();break;case 'karten':html=flashPage();break;case 'verlauf':html=progressPage();break;case 'geschichte':html=historyPage();break;case 'begriffe':html=glossaryPage();break;case 'karriere':html=careerPage();break;case 'quellen':html=sourcesPage();break;case 'missionen':html=typeof acDailyPage==='function'?acDailyPage():'<p>Lädt …</p>';break;case 'rangliste':html=typeof acLeaderboardPage==='function'?acLeaderboardPage():'<p>Lädt …</p>';break;case 'dienstgradspiel':html=rankPage();break;case 'themenquiz':html=quizPage();break;default:html=notFound();}
+switch(page){case 'start':html=dashboard()+(typeof acDashboardWidget==='function'?acDashboardWidget():'');break;case 'lernen':html=modules();break;case 'lesson':html=lessonPage(id)+(typeof acReviewButton==='function'?acReviewButton(id):'');break;case 'teilstreit':html=teilStreit();break;case 'feld':html=fieldPage();break;case 'raenge':html=rankPage();break;case 'quiz':html=quizPage();break;case 'karten':html=flashPage();break;case 'verlauf':html=progressPage();break;case 'geschichte':html=historyPage();break;case 'begriffe':html=glossaryPage();break;case 'karriere':html=careerPage();break;case 'quellen':html=sourcesPage();break;case 'missionen':html=typeof acDailyPage==='function'?acDailyPage():'<p>Lädt …</p>';break;case 'rangliste':html=typeof acLeaderboardPage==='function'?acLeaderboardPage():'<p>Lädt …</p>';break;case 'admin':html=typeof acAdminPage==='function'?acAdminPage():'<p>Adminbereich lädt …</p>';break;case 'dienstgradspiel':html=rankPage();break;case 'themenquiz':html=quizPage();break;default:html=notFound();}
 el.innerHTML=html;document.title=`${page==='lesson'?(LESSONS.find(x=>x.id===id)?.name||'Kapitel'):(pageLabel[page]||'Kompass')} · Bundeswehr Kompass`;document.getElementById('breadcrumb').textContent=page==='lesson'?'LERNEN / '+(LESSONS.find(x=>x.id===id)?.name.toUpperCase()||'KAPITEL'):(pageLabel[page]||'ÜBERSICHT');renderNav(mapPage);if(lastRenderHash!==h){window.scrollTo(0,0);lastRenderHash=h;}closeMobile();}
 function notify(text){const el=document.getElementById('toast');el.textContent=text;el.classList.add('visible');clearTimeout(notify.timeout);notify.timeout=setTimeout(()=>el.classList.remove('visible'),2500)}
 function closeMobile(){document.getElementById('sidebar').classList.remove('open');document.getElementById('navBackdrop').classList.remove('open');document.getElementById('menuToggle').setAttribute('aria-expanded','false')}
@@ -491,5 +492,6 @@ window.addEventListener('hashchange',render);render();
 
 </script>
 <script src="academy-plus.js?v=3"></script>
+<script src="owner-admin.js?v=1"></script>
 </body>
 </html>
