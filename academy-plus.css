@@ -13,7 +13,7 @@
 .ac-hero{display:flex;justify-content:space-between;gap:30px;align-items:center}
 .ac-hero h2{font-size:clamp(62px,8vw,95px);color:var(--ac-green);line-height:1}
 .ac-hero h2 small{font-size:26px;color:#b3c0b7;font-weight:600}
-.ac-ring{width:132px;height:132px;flex:none;border-radius:50%;background:conic-gradient(#baf085 var(--ac-progress),#243c2f var(--ac-progress));display:grid;place-items:center;box-shadow:0 0 0 7px #203c2c44}
+.ac-ring{position:relative;width:132px;height:132px;flex:none;border-radius:50%;background:conic-gradient(#baf085 var(--ac-progress),#243c2f var(--ac-progress));display:grid;place-items:center;box-shadow:0 0 0 7px #203c2c44}
 .ac-ring:before{content:"";background:#112019;position:absolute;width:98px;height:98px;border-radius:50%}
 .ac-ring b{z-index:1;color:#ebf7df;font-size:25px}
 .ac-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:25px 0 35px}
