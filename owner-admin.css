@@ -1,0 +1,41 @@
+/* Owner Control — private-on-device UI, themed for Bundeswehr Kompass */
+.own-tag{display:block;color:#c3f486;font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase;margin-bottom:13px}
+.own-note{border-left:3px solid #a7ce7b;background:#1a271e;border-radius:0 13px 13px 0;color:#b9c6b7;font-size:13px;line-height:1.8;padding:15px 20px;margin:26px 0;max-width:100%;overflow-wrap:anywhere}
+.own-note strong{color:#e4f2cf}
+.own-lock{max-width:570px;margin:28px auto;padding:42px;background:radial-gradient(circle at 90% 0%,#2c442c,#121e17 65%);border:1px solid #556e4b;border-radius:26px;box-shadow:0 22px 65px #0005}
+.own-lock-symbol{border:1px solid #9ad16f70;border-radius:17px;width:60px;height:60px;display:grid;place-items:center;color:#d0fb9e;font-size:31px;margin-bottom:23px;background:#baff8b0c}
+.own-lock h2,.own-hero h2{font-family:"Barlow Condensed",sans-serif;font-size:clamp(32px,4.3vw,55px);line-height:1.05;margin:0 0 15px;letter-spacing:-.4px}
+.own-lock p,.own-hero p,.own-card>p{font-size:13px;color:#adbdad;line-height:1.65;margin:0 0 22px}
+.own-form{display:flex;flex-direction:column;gap:16px}
+.own-form label{color:#dcead0;font-size:12px;letter-spacing:.2px;font-weight:700;display:flex;flex-direction:column;gap:8px}
+.own-form input,.own-form select{display:block;width:100%;min-width:0;border:1px solid #526955;background:#0c1711;border-radius:12px;padding:13px 14px;outline:none;color:#eaf3e1;font:inherit;font-size:14px}
+.own-form input::placeholder{color:#70816e}
+.own-form input:focus,.own-form select:focus{border-color:#d4fb9c;box-shadow:0 0 0 3px #d4fb9c1c}
+.own-form .btn{min-height:43px}
+.own-two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.own-hero{border:1px solid #48694e;border-radius:23px;padding:32px 36px;display:flex;align-items:center;justify-content:space-between;gap:25px;background:radial-gradient(circle at 83% 18%,#42643b80,transparent 44%),linear-gradient(115deg,#21372b,#101d16 80%);margin:26px 0}
+.own-hero p{margin:0}
+.own-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:22px 0 30px}
+.own-stats>div{display:flex;flex-direction:column;gap:8px;background:#1a2820;border:1px solid #344839;border-radius:17px;padding:20px}
+.own-stats small{font-size:11px;letter-spacing:1.3px;color:#a8baa5}
+.own-stats strong{font:800 clamp(27px,4vw,40px) "Barlow Condensed",system-ui,sans-serif;color:#def5c4}
+.own-layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin:20px 0}
+.own-card{min-width:0;background:linear-gradient(144deg,#1b2b21,#121c17);border:1px solid #3d5341;border-radius:20px;padding:29px;box-shadow:0 15px 32px #0002}
+.own-card h3{font:800 31px "Barlow Condensed",sans-serif;letter-spacing:.2px;margin:0 0 12px}
+.own-card>p{margin:0 0 22px}
+.own-full{margin:22px 0}
+.own-topic-form{padding:20px;background:#102017;border:1px solid #405f40;border-radius:15px;margin-bottom:28px}
+.own-btn-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}
+.own-btn-col{display:flex;flex-direction:column;gap:11px;margin-top:23px}
+.own-help{font-size:12px;line-height:1.5;color:#a2b29f;margin-top:15px}
+.own-edits{padding:20px 0 0;margin-top:26px;border-top:1px solid #435443}
+.own-edits>strong{display:block;margin-bottom:14px;font-size:14px}
+.own-edits>div{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:11px 0;border-top:1px solid #283b2a;font-size:12px;color:#c6d5c1}
+.own-edits>div span{overflow-wrap:anywhere;min-width:0}
+.own-mini-remove{padding:8px 10px;background:transparent;border:1px solid #a7676470;border-radius:9px;color:#e2aa9f;cursor:pointer;font-size:11px}
+.own-mini-remove:hover{border-color:#eca19a}
+.own-audit{max-height:350px;overflow:auto}
+.own-audit>div{display:grid;grid-template-columns:135px minmax(150px,1fr) minmax(180px,1.5fr);align-items:center;gap:12px;border-bottom:1px solid #2e422e;padding:14px 0;font-size:13px;overflow-wrap:anywhere}
+.own-audit>div:last-child{border-bottom:none}
+.own-audit small{color:#9baf98}.own-audit strong{color:#e4f3d1;font-size:13px}.own-audit span{color:#aabaac}
+@media(max-width:760px){.own-lock{padding:24px;margin:22px 0}.own-stats{gap:8px}.own-stats>div{padding:15px 12px}.own-stats strong{font-size:26px}.own-stats small{font-size:9px}.own-layout{grid-template-columns:1fr}.own-card{padding:22px}.own-hero{flex-direction:column;align-items:flex-start;padding:23px}.own-hero .btn{align-self:flex-start}.own-two{grid-template-columns:1fr}.own-audit>div{grid-template-columns:1fr;gap:5px}.own-btn-row .btn{flex:1}.own-tag{font-size:10px}}
