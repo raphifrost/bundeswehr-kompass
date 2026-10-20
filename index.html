@@ -332,11 +332,11 @@ function notFound(){return `${sectionHeader('KAPITEL <span style="color:var(--li
 PHOTOS.tank={file:"Leopard 2 A5 der Bundeswehr.jpg",author:"Bundeswehr-Fotos / Detmar Modes",license:"CC BY 2.0",url:"https://commons.wikimedia.org/wiki/File:Leopard_2_A5_der_Bundeswehr.jpg"};
 const RANK_LADDER=[
  ["Soldat",0,"✦"],["Gefreiter",100,"❯"],["Obergefreiter",150,"❯❯"],["Hauptgefreiter",200,"❯❯❯"],
- ["Stabsgefreiter",250,"✣"],["Oberstabsgefreiter",300,"✣✣"],["Unteroffizier",350,"◆"],
+ ["Stabsgefreiter",250,"✣"],["Oberstabsgefreiter",300,"✣✣"],["Korporal",325,"⌁"],["Stabskorporal",350,"⌁⌁"],["Unteroffizier",375,"◆"],
  ["Stabsunteroffizier",400,"◆◆"],["Feldwebel",450,"❖"],["Oberfeldwebel",500,"❖❖"],
  ["Hauptfeldwebel",550,"❖✦"],["Stabsfeldwebel",600,"✶"],["Oberstabsfeldwebel",650,"✶✶"],
  ["Leutnant",700,"★"],["Oberleutnant",725,"★★"],["Hauptmann",750,"★★★"],
- ["Major",775,"✸"],["Oberstleutnant",800,"✸✸"],["Oberst",825,"✸✸✸"]
+ ["Major",775,"✸"],["Oberstleutnant",800,"✸✸"],["Oberst",850,"✸✸✸"],["Brigadegeneral",875,"✸★"]
 ];
 const QUIZ_TOPICS=[
  {id:"basics",title:"Bundeswehr Basics",icon:"✦",img:"parade",description:"Auftrag, Organisation und Grundlagen.",questions:[
@@ -450,6 +450,7 @@ const QUIZ_TOPICS=[
  ["Wozu dienen Ausbildungswerkstätten?",["Berufliche und technische Ausbildung","Parteiversammlungen","Fahrkartenverkauf","Konzertplanung"],0,"In Ausbildungswerkstätten werden berufliche Fertigkeiten vermittelt."]
  ]}
 ];
+QUIZ_TOPICS.unshift({id:"klassiker",title:"Großer Wissenstest",icon:"◈",img:"parade",description:"Das ursprüngliche Quiz mit 12 Fragen aus allen Grundlagen.",questions:QUESTIONS.map(q=>[q.q,q.o,q.a,q.why])});
 let awarded=new Set();
 try{awarded=new Set(JSON.parse(localStorage.getItem("bwcomp_awards_v2")||"[]"));}catch(e){awarded=new Set();}
 /* Import points from the earlier academy version once, keeping unique legacy achievements. */
@@ -460,7 +461,7 @@ const currentRank=()=>{let v=earnedXP(),i=0;for(let j=0;j<RANK_LADDER.length;j++
 const topicCount=()=>QUIZ_TOPICS.reduce((sum,t)=>sum+t.questions.length,0)+QUESTIONS.length;
 function award(key){if(awarded.has(key))return 0;const first=awarded.size===0;awarded.add(key);try{localStorage.setItem("bwcomp_awards_v2",JSON.stringify([...awarded]));}catch(e){}return first?100:25;}
 function xpHero(){const r=currentRank(),total=earnedXP(),next=r.next;const low=r.rank[1],high=next?next[1]:total||1;const pc=next?Math.max(0,Math.min(100,100*(total-low)/(high-low))):100;return '<section class="xp-layout" aria-label="Dein XP-Fortschritt"><div class="xp-panel"><div class="xp-label">DEIN ERFAHRUNGSSTAND · XP</div><div class="xp-number">'+total+' <span class="xp-unit">PUNKTE</span></div><div class="xp-rule" role="progressbar" aria-valuemin="'+low+'" aria-valuemax="'+high+'" aria-valuenow="'+total+'"><i style="width:'+pc+'%"></i></div><div class="xp-foot"><span>'+awarded.size+' einzigartige Erfolge</span><span>'+(next?next[1]-total+' XP bis '+next[0]:"Höchster Spielrang erreicht")+'</span></div></div><a href="#raenge" class="rank-panel"><div class="rank-icon">'+r.rank[2]+'</div><div><div class="xp-label">DEIN SPIEL-DIENSTGRAD</div><div class="rank-current">'+r.rank[0]+'</div><div class="rank-sub">Alle Dienstgrade ansehen ↗<br>100 XP beim ersten Erfolg, danach 25 XP</div></div></a></section>';}
-function rankRoadmap(){return '<div class="section-heading"><h2 class="section-title">DIENSTGRAD-KARRIERE</h2></div><div class="rank-roadmap">'+RANK_LADDER.map((r,i)=>{const info=currentRank();const st=i===info.level?"current":i<info.level?"done":"locked";return '<div class="rank-step '+st+'"><span aria-hidden="true">'+r[2]+'</span><div><b>'+r[0]+'</b><small>'+r[1]+' XP · '+(st==="locked"?"Gesperrt":st==="current"?"Aktuell":"Freigeschaltet")+'</small></div></div>';}).join('')+'</div><p class="rank-legend">★ Dies sind Spiel-Dienstgrade als Belohnung fürs Lernen und für Quizze – keine echten verliehenen militärischen Dienstgrade. Die Symbole sind eigene Spiel-Icons, keine offiziellen Rangabzeichen.</p>';}
+function rankRoadmap(){return '<div class="section-heading"><h2 class="section-title">DIENSTGRAD-KARRIERE</h2></div><div class="rank-roadmap">'+RANK_LADDER.map((r,i)=>{const info=currentRank();const st=i===info.level?"current":i<info.level?"done":"locked";return '<div class="rank-step '+st+'"><span aria-hidden="true">'+r[2]+'</span><div><b>'+r[0]+'</b><small>'+r[1]+' XP · '+(st==="locked"?"Gesperrt":st==="current"?"Aktuell":"Freigeschaltet")+'</small></div></div>';}).join('')+'</div><p class="rank-legend">★ Dies sind Spiel-Dienstgrade als Belohnung fürs Lernen und für Quizze – keine echten verliehenen militärischen Dienstgrade. Die Leiter zeigt eine Auswahl echter Dienstgradbezeichnungen – die Symbole sind frei gestaltete Spiel-Icons, keine offiziellen Rangabzeichen.</p>';}
 function topicCorrectIndex(q,index,topic){return (q[2]+index+topic.id.length)%q[1].length;}
 function topicOptions(q,index,topic){const rot=(index+topic.id.length)%q[1].length;return q[1].slice(-rot).concat(q[1].slice(0,-rot));}
 function quizPage(){const id=decodeURIComponent((location.hash||"#quiz").slice(1)).split("/")[1];if(!id)return quizHub();const topic=QUIZ_TOPICS.find(x=>x.id===id);if(!topic)return quizHub();return quizPlay(topic);}
